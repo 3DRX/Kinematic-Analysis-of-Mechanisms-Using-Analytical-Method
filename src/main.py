@@ -13,19 +13,20 @@ theta1 = 0.01
 
 
 if __name__ == "__main__":
-    # 根据theta1计算出theta2和theta3
+    # 根据 theta1 计算出 theta2 和 theta3
     resTheta2 = []
     resTheta3 = []
     resTheta1 = []
 
-    def func1(x):
-        return [
-            l1*np.cos(theta1)+l2*np.cos(x[0])-l3*np.cos(x[1])-l4,
-            l1*np.sin(theta1)+l2*np.sin(x[0])-l3*np.sin(x[1])
-        ]
-        pass
-
     while theta1 < np.pi*2:
+
+        def func1(x):
+            return [
+                l1*np.cos(theta1)+l2*np.cos(x[0])-l3*np.cos(x[1])-l4,
+                l1*np.sin(theta1)+l2*np.sin(x[0])-l3*np.sin(x[1])
+            ]
+            pass
+
         root = fsolve(func1, [0, 0])
         if root[0] > 3 or root[1] > 3:
             theta1 += 0.01
@@ -72,4 +73,31 @@ if __name__ == "__main__":
     plt.show()
 
     # 加速度分析：根据 theta2, theta3, omega2, omega3 计算 alpha2, alpha3
+
+    resAlpha2 = []
+    resAlpha3 = []
+    for i in range(len(resTheta1)):
+
+        def func3(x):
+            return [
+                -x[0]*l2*np.sin(resTheta2[i])
+                + x[1]*l3*np.sin(resTheta3[i])
+                - resOmega2[i]**2*l2*np.cos(resTheta2[i])
+                + resOmega3[i]**2*l3*np.cos(resTheta3[i])
+                - omega1**2*l1*np.cos(theta1),
+                x[0]*l2*np.cos(resTheta2[i])
+                - x[1]*l3*np.cos(resTheta3[i])
+                - resOmega2[i]**2*l2*np.sin(resTheta2[i])
+                + resOmega3[i]**2*l3*np.cos(resTheta3[i])
+                - omega1**2*l1*np.sin(theta1)
+            ]
+            pass
+
+        root = fsolve(func3, [0, 0])
+        resAlpha2.append(root[0])
+        resAlpha3.append(root[1])
+        pass
+    plt.scatter(resTheta1, resAlpha2)
+    plt.scatter(resTheta1, resAlpha3)
+    plt.show()
     pass
