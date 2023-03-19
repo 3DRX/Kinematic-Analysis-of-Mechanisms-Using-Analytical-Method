@@ -45,7 +45,7 @@ if __name__ == "__main__":
     plt.scatter(resTheta1, resTheta3)
     plt.show()
 
-    # 根据theta2和theta3计算omega2和omega3
+    # 速度分析：根据 theta2 和 theta3 计算 omega2 和 omega3
 
     resOmega2 = []
     resOmega3 = []
@@ -70,4 +70,6 @@ if __name__ == "__main__":
     plt.scatter(resTheta1, resOmega2)
     plt.scatter(resTheta1, resOmega3)
     plt.show()
+
+    # 加速度分析：根据 theta2, theta3, omega2, omega3 计算 alpha2, alpha3
     pass
